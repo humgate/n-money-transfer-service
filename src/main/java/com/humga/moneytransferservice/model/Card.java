@@ -1,11 +1,9 @@
 package com.humga.moneytransferservice.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 public class Card {
     //номер карты в открытом виде
