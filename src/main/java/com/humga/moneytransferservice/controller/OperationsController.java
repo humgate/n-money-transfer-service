@@ -2,6 +2,7 @@ package com.humga.moneytransferservice.controller;
 
 import com.humga.moneytransferservice.model.Card;
 import com.humga.moneytransferservice.repository.CardRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,6 @@ public class OperationsController {
     }
 
     @GetMapping("/")
-    public List<Card> getCardsRepository() {
-        return cardRepository.readCardRepository("cards.json");
+    public List<Card> getCardsRepository() { return cardRepository.getCards();
     }
 }

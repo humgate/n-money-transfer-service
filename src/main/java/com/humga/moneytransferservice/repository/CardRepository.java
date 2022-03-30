@@ -2,24 +2,38 @@ package com.humga.moneytransferservice.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.humga.moneytransferservice.model.Card;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
 @Repository
+@Getter
 public class CardRepository {
-    static final String CARDS_REPOSITORY_FILE_NAME = "cards.json";
-    //энкодер для операций шифрования данных
-    private final PasswordEncoder passwordEncoder;
-    //"базу" карт зачитываем при инициализации из файла
-    private final List<Card> cards = readCardRepository(CARDS_REPOSITORY_FILE_NAME);
+    //имя файла с "базой данных" карт зачитываем из application.properties
+    @Value("${application.profile.cardsfile}")
+    private String cardsfile;
 
-    public CardRepository(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    //энкодер для операций шифрования данных
+    private PasswordEncoder passwordEncoder;
+
+    //репозиторий карт
+    private List<Card> cards;
+
+    /* cardsfile зачитывается из application.properties после выполнения конструктора, поэтому
+     * зачитывать данные из файла репозитория карт нужно сразу после конструктора. Используем @PostConstruct */
+    @PostConstruct
+    public void init() {
+        cards = readCardRepository(cardsfile);
     }
 
     /**

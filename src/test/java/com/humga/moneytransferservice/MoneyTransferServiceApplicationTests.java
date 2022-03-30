@@ -25,7 +25,7 @@ class MoneyTransferServiceApplicationTests {
 
     @Test
     void contextLoads() {
-        //init();
+        //init(); раскомментировать для того чтобы при запуске теста сгенерировать cards.json
     }
 
     //метод для наполнения тестовыми данными репозитория карт
@@ -38,7 +38,7 @@ class MoneyTransferServiceApplicationTests {
                 passwordEncoder.encode("111")));
 
         cards.add(new Card(1111222211112222L,
-                passwordEncoder.encode("02/02/2022"),
+                passwordEncoder.encode("01/01/2022"),
                 passwordEncoder.encode("PETER PETROV"),
                 passwordEncoder.encode("222")));
 
@@ -46,6 +46,11 @@ class MoneyTransferServiceApplicationTests {
                 passwordEncoder.encode("03/03/2022"),
                 passwordEncoder.encode("JOHN DOE"),
                 passwordEncoder.encode("333")));
+
+        cards.add(new Card(1111222211113333L,
+                passwordEncoder.encode("03/03/2022"),
+                passwordEncoder.encode("JOHN DOE"),
+                passwordEncoder.encode("444")));
 
         ObjectMapper mapper = new ObjectMapper();
         try {
