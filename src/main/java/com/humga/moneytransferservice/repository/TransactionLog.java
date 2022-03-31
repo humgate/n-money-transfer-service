@@ -1,4 +1,6 @@
-package com.humga.moneytransferservice.model;
+package com.humga.moneytransferservice.repository;
+
+import com.humga.moneytransferservice.model.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;

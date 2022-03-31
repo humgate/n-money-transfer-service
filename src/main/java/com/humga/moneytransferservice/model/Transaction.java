@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 
 @Data
 public class Transaction {
+
+    //id операции
+    private long id;
+
     //таймстэмп операции
     private LocalDateTime timeStamp;
 
