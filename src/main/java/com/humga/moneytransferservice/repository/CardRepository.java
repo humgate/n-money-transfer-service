@@ -12,6 +12,9 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.humga.moneytransferservice.utils.Utils.formatCardNumber;
 
 @Repository
 @Getter
@@ -61,6 +64,17 @@ public class CardRepository {
             throw new RuntimeException("Не удалось прочитать репозиторий карт. " + e.getMessage());
         }
     }
+
+    public Card getCardByNumber (long number) {
+       List<Card> cardsWithNum = cards.stream().filter(card -> card.getNumber() == number).collect(Collectors.toList());
+       if (cardsWithNum.size() != 1) {
+           return null;
+       } else {
+           return cardsWithNum.get(0);
+       }
+    }
+
+
 }
 
 

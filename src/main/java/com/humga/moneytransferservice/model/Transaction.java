@@ -1,12 +1,17 @@
 package com.humga.moneytransferservice.model;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@NonNull
+@AllArgsConstructor
 public class Transaction {
-
     //id операции
     private long id;
 
@@ -14,11 +19,14 @@ public class Transaction {
     private LocalDateTime timeStamp;
 
     //карта - источник
-    private Card source;
+    private Card from;
 
     //карта - получатель
-    private Card target;
+    private Card to;
 
-    //результат
-    private boolean successful;
+    //сумма перевода
+    private int value;
+
+    //Валюта перевода
+    private String currency;
 }
