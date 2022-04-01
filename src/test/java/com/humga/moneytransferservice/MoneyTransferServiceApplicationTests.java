@@ -25,25 +25,25 @@ class MoneyTransferServiceApplicationTests {
 
     @Test
     void contextLoads() {
-        //init(); раскомментировать для того чтобы при запуске теста сгенерировать cards.json
+        init(); //раскомментировать для того чтобы при запуске теста сгенерировать cards.json
     }
 
     //метод для наполнения тестовыми данными репозитория карт
     public void init (){
         List<Card> cards = new ArrayList<>();
 
-        cards.add(new Card(1111000011110000L,
-                passwordEncoder.encode("01/01/2022"),
+        cards.add(new Card(1111222233334444L,
+                passwordEncoder.encode("01/23"),
                 passwordEncoder.encode("IVAN IVANOV"),
                 passwordEncoder.encode("111")));
 
         cards.add(new Card(1111222211112222L,
-                passwordEncoder.encode("01/01/2022"),
+                passwordEncoder.encode("01/24"),
                 passwordEncoder.encode("PETER PETROV"),
                 passwordEncoder.encode("222")));
 
-        cards.add(new Card(1111222211112222L,
-                passwordEncoder.encode("03/03/2022"),
+        cards.add(new Card(4444333322221111L,
+                passwordEncoder.encode("03/23"),
                 passwordEncoder.encode("JOHN DOE"),
                 passwordEncoder.encode("333")));
 
