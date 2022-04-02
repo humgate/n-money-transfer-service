@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ConfirmOperationRequestDto {
+public class ConfirmOperationRequestDTO {
      String operationId;
      String code;
 }

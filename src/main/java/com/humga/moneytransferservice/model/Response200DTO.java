@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-public class Response200Dto {
+public class Response200DTO {
     String operationId;
     @JsonInclude(JsonInclude.Include.NON_NULL) //если поле null, то оно не будет сериализовыватcя в Json
     String code;

@@ -1,13 +1,8 @@
 package com.humga.moneytransferservice.service;
 
-import com.humga.moneytransferservice.model.Card;
-import com.humga.moneytransferservice.model.Response200Dto;
-import com.humga.moneytransferservice.model.Transaction;
-import com.humga.moneytransferservice.model.TransferRequestDto;
-import com.humga.moneytransferservice.repository.CardRepository;
-import com.humga.moneytransferservice.repository.TransactionLog;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
+import com.humga.moneytransferservice.exceptions.*;
+import com.humga.moneytransferservice.model.*;
+import com.humga.moneytransferservice.repository.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +23,7 @@ public class OperationsService {
         this.encoder = encoder;
     }
 
-    public Response200Dto transfer(TransferRequestDto reqDTO) {
+    public Response200DTO transfer(TransferRequestDTO reqDTO) {
 
         Card from = authorizeCardFrom(reqDTO);
         Card to = getCardTo(reqDTO);
@@ -40,26 +35,43 @@ public class OperationsService {
                 reqDTO.getAmount().getValue(),
                 reqDTO.getAmount().getCurrency()));
 
-        return new Response200Dto(Long.toString(operationId), null);
+        return new Response200DTO(Long.toString(operationId), null);
     }
 
-    private Card authorizeCardFrom(TransferRequestDto reqDto) {
+    private Card authorizeCardFrom(TransferRequestDTO reqDto) {
         Card from = cardRepository.getCardByNumber(reqDto.getCardFromNumber());
-        if (from == null) throw new RuntimeException(
+        if (from == null) throw new NotFoundException(
                 "Аутентификация карты не удалась: "+ formatCardNumber(reqDto.getCardFromNumber()));
 
         boolean matches = encoder.matches(reqDto.getCardFromValidTill(),from.getValidThrough()) &&
                 encoder.matches(reqDto.getCardFromCVV(), from.getCvv());
-        if (!matches) throw new AccessDeniedException("Авторизация карты не удалась");
+        if (!matches) throw new UnauthorizedException(
+                "Авторизация карты не удалась: "+formatCardNumber(reqDto.getCardFromNumber()));
 
         return from;
     }
 
-    private Card getCardTo(TransferRequestDto reqDto) {
+    private Card getCardTo(TransferRequestDTO reqDto) {
         Card to = cardRepository.getCardByNumber(reqDto.getCardToNumber());
-        if (to == null) throw new RuntimeException(
+        if (to == null) throw new NotFoundException(
                 "Аутентификация карты не удалась: "+ formatCardNumber(reqDto.getCardFromNumber()));
         return to;
+    }
+
+    public Response200DTO confirmOperation(ConfirmOperationRequestDTO reqDTO) {
+        /*
+         * Предоставленный в условии задания FRONT не запрашивает у пользователя проверочный код и всегда
+         * присылает на эндпоинт /confirmOperation значение кода = "0000".
+         * Поэтому для возможности проверки возврата ошибки с неверным проверочным кодом,
+         * искусственно на бэкенде генерируем ошибку неверного проверочного кода для каждого нечетного operationId
+         */
+        if (Integer.parseInt(reqDTO.getOperationId()) %2 == 0) throw new UnauthorizedException(
+                "Неверный проверочный код");
+        /*
+         * Предоставленный в условии задания FRONT, никак не отображает полученный проверочный код,
+         * просто возвращаем, то который получили в реквесте
+         */
+        return new Response200DTO(reqDTO.getOperationId(), reqDTO.getCode());
     }
 
 }

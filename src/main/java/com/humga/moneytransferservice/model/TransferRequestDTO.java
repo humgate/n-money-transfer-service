@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TransferRequestDto {
+public class TransferRequestDTO {
      @Getter
      @Setter
      public class AmountDto {
