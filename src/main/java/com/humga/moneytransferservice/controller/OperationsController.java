@@ -5,6 +5,7 @@ import com.humga.moneytransferservice.exceptions.UnauthorizedException;
 import com.humga.moneytransferservice.model.*;
 
 import com.humga.moneytransferservice.service.OperationsService;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
