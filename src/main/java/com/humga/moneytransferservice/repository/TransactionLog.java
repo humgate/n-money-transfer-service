@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 public class TransactionLog {
     private final Map<Long, Transaction> log = new ConcurrentHashMap<>();
-    AtomicLong id = new AtomicLong();
+    private final AtomicLong id = new AtomicLong();
 
     public long add(Transaction transaction) {
         long currentId = id.incrementAndGet();

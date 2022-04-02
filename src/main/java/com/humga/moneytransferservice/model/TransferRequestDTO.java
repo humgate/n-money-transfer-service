@@ -8,7 +8,7 @@ import lombok.Setter;
 public class TransferRequestDTO {
      @Getter
      @Setter
-     public class AmountDto {
+     public static class AmountDto {
           String currency;
           int value;
      }

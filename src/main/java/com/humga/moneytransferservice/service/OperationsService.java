@@ -27,13 +27,9 @@ public class OperationsService {
 
         Card from = authorizeCardFrom(reqDTO);
         Card to = getCardTo(reqDTO);
+
         long operationId = transactionLog.add(new Transaction(
-                -1,
-                LocalDateTime.now(),
-                from,
-                to,
-                reqDTO.getAmount().getValue(),
-                reqDTO.getAmount().getCurrency()));
+                -1, LocalDateTime.now(), from, to, reqDTO.getAmount().getValue(), reqDTO.getAmount().getCurrency()));
 
         return new Response200DTO(Long.toString(operationId), null);
     }

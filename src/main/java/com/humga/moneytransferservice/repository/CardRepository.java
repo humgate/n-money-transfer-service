@@ -30,7 +30,7 @@ public class CardRepository {
     private List<Card> cards;
 
     /* cardsfile зачитывается из application.properties после выполнения конструктора, поэтому
-     * зачитывать данные из файла репозитория карт нужно сразу после конструктора. Используем @PostConstruct */
+     * зачитывать данные из файла репозитория карт нужно после конструктора. Используем @PostConstruct */
     @PostConstruct
     public void init() {
         cards = readCardRepository(cardsfile);
@@ -65,6 +65,12 @@ public class CardRepository {
         }
     }
 
+    /**
+     * Возвращает карту из репозитория карт по ее номеру
+     *
+     * @param number - номер карты
+     * @return - карта если она найдена и номер уникален, иначе null
+     */
     public Card getCardByNumber (long number) {
        List<Card> cardsWithNum = cards.stream().filter(card -> card.getNumber() == number).collect(Collectors.toList());
        if (cardsWithNum.size() != 1) {
