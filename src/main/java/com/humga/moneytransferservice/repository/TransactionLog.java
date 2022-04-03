@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Хранилище лога транзакций
+ *
+ */
 @Repository
 public class TransactionLog {
     private final Map<Long, Transaction> log = new ConcurrentHashMap<>();

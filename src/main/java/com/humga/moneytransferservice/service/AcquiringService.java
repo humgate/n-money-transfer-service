@@ -1,17 +1,17 @@
 package com.humga.moneytransferservice.service;
 
-
-import com.humga.moneytransferservice.exceptions.UnauthorizedException;
 import com.humga.moneytransferservice.model.AuthorizationStatus;
 import com.humga.moneytransferservice.model.TransactionAuthorizationRequest;
 import org.springframework.stereotype.Service;
 
-
+/**
+ * Заглушка. Имитирует сервис IPSP по переводу денег
+ *
+ */
 @Service
 public class AcquiringService {
     /**
      * Заглушка.
-     * Имитирует сервис IPSP провайдера по исполнению перевода денег.
      * Имитирует валидацию cvv кода карты. Все карты кроме карт с cvv = 999 авторизуются.
      * Имитирует авторизацию номера карты отправителя и получателя в эквайринговом API. Все карты кроме
      * карт с номером 9999-9999-9999-9999 авторизуются.
@@ -38,7 +38,6 @@ public class AcquiringService {
     }
 
     /**
-     * Заглушка.
      * Имитирует верификацию сервисом IPSP проверочного кода.
      * Предоставленный в условии задания FRONT не запрашивает у пользователя проверочный код и всегда
      * присылает значение кода = "0000". Поэтому для возможности проверки возврата ошибки с неверным
