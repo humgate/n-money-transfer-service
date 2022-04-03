@@ -1,70 +1,54 @@
 package com.humga.moneytransferservice.service;
 
-import com.humga.moneytransferservice.exceptions.*;
-import com.humga.moneytransferservice.model.*;
-import com.humga.moneytransferservice.repository.*;
+
+import com.humga.moneytransferservice.exceptions.UnauthorizedException;
+import com.humga.moneytransferservice.model.AuthorizationStatus;
+import com.humga.moneytransferservice.model.TransactionAuthorizationRequest;
 import org.springframework.stereotype.Service;
 
-import static com.humga.moneytransferservice.utils.Utils.formatCardNumber;
 
 @Service
 public class AcquiringService {
+    /**
+     * Заглушка.
+     * Имитирует сервис IPSP провайдера по исполнению перевода денег.
+     * Имитирует валидацию cvv кода карты. Все карты кроме карт с cvv = 999 авторизуются.
+     * Имитирует авторизацию номера карты отправителя и получателя в эквайринговом API. Все карты кроме
+     * карт с номером 9999-9999-9999-9999 авторизуются.
+     * Имитирует авторизацию суммы. Все переводы на сумму не более 999999 авторизуются
+     * Имитирует ошибку сервиса IPSP провайдера при номере карты получателя = 9999-9999-9999-8888
+     *
+     * @param req - результат операции
+     */
+    public AuthorizationStatus authorizeTransaction(TransactionAuthorizationRequest req) {
 
-    TransactionLog transactionLog;
+        if (req.getCardFromNumber() == 9999_9999_9999_9999L || req.getCardToNumber() == 9999_9999_9999_9999L) {
+            return AuthorizationStatus.UNAUTHORIZED;
+        }
 
-    public AcquiringService(TransactionLog transactionLog) {
-        this.transactionLog = transactionLog;
-    }
+        if (req.getCardFromNumber() == 999) return AuthorizationStatus.UNAUTHORIZED;
 
-    public Response200DTO transfer(TransferRequestDTO reqDTO) {
+        if (req.getAmount().longValue() > 999999) return AuthorizationStatus.INSUFFICIENT;
 
-        Transaction transaction = new Transaction(reqDTO.getCardFromNumber(), reqDTO.getCardToNumber(),
-                reqDTO.getAmount().getValue(), reqDTO.getAmount().getCurrency());
+        if (req.getCardToNumber() == 9999_9999_9999_8888L) {
+            return AuthorizationStatus.ERROR;
+        }
 
-        authorizeTransaction(reqDTO);
-
-        transaction.markDone();
-
-        transactionLog.put(transaction);
-
-        return new Response200DTO(Long.toString(transaction.getId()), null);
+        return AuthorizationStatus.AUTHORIZED;
     }
 
     /**
-     * Заглушка!
-     * Имитирует авторизацию карты-источника в эквайринговом API. Все карты с CVV кодом 111 авторизуются.
-     * Имитирует авторизацию номера карты-источника приемника в эквайринговом API. Все карты с номером,
-     * больше 2222 авторизуются.
-     * Имитирует авторизацию суммы. Все переводы более чем на 5000 не авторизуются
+     * Заглушка.
+     * Имитирует верификацию сервисом IPSP проверочного кода.
+     * Предоставленный в условии задания FRONT не запрашивает у пользователя проверочный код и всегда
+     * присылает значение кода = "0000". Поэтому для возможности проверки возврата ошибки с неверным
+     * проверочным кодом, генерируем ошибку неверного проверочного кода для каждого нечетного operationId
      *
-     * @param reqDto - DTO трансфера полученный из запроса
+     * @param operationId id операции,
+     * @param code code операци
+     * @return true если код верный, иначе false
      */
-    private void authorizeTransaction(TransferRequestDTO reqDto) {
-
-        if (!reqDto.getCardFromCVV().equals("111")) throw new UnauthorizedException(
-                "Авторизация карты не удалась: "+ formatCardNumber(reqDto.getCardFromNumber()));
-
-        if (reqDto.getCardToNumber() < 2222_0000_0000_0000L) throw new UnauthorizedException(
-                "Авторизация карты не удалась: " + formatCardNumber(reqDto.getCardToNumber()));
-
-        if (reqDto.getAmount().getValue() > 5000) throw new UnauthorizedException(
-                "Авторизация карты не удалась. Недостаточно средств: " + formatCardNumber(reqDto.getCardFromNumber()));
+    public boolean verifyConfirmationCode (String operationId, String code) {
+        return Integer.parseInt(operationId) % 2 != 0;
     }
-
-    public Response200DTO confirmOperation(ConfirmOperationRequestDTO reqDTO) {
-        /*
-         * Предоставленный в условии задания FRONT не запрашивает у пользователя проверочный код и всегда
-         * присылает на эндпоинт /confirmOperation значение кода = "0000".
-         * Поэтому для возможности проверки возврата ошибки с неверным проверочным кодом,
-         * искусственно на бэкенде генерируем ошибку неверного проверочного кода для каждого нечетного operationId
-         */
-        if (Integer.parseInt(reqDTO.getOperationId()) %2 == 0) throw new UnauthorizedException(
-                "Неверный проверочный код");
-        /*
-         * Предоставленный в условии задания FRONT, никак не отображает полученный проверочный код,
-         * просто возвращаем, то который получили в реквесте
-         */
-        return new Response200DTO(reqDTO.getOperationId(), reqDTO.getCode());
-    }
-
 }

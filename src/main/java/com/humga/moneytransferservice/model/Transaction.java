@@ -7,28 +7,29 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @NonNull
 public class Transaction {
     //id операции
+    @Setter
     private long id;
 
     //таймстэмп операции
     private LocalDateTime timeStamp;
 
     //карта - источник
-    private long from;
+    private final long from;
 
     //карта - получатель
-    private long to;
+    private final long to;
 
     //сумма перевода
-    private int value;
+    private final int value;
 
     //Валюта перевода
-    private String currency;
+    private final String currency;
 
     //Статус
+    @Setter
     boolean success;
 
     public Transaction(long from, long to, int value, String currency) {
@@ -38,8 +39,15 @@ public class Transaction {
         this.currency = currency;
     }
 
-    public void markDone() {
+    public Transaction setSuccess() {
         timeStamp = LocalDateTime.now();
         setSuccess(true);
+        return this;
+    }
+
+    public Transaction setFail() {
+        timeStamp = LocalDateTime.now();
+        setSuccess(false);
+        return this;
     }
 }

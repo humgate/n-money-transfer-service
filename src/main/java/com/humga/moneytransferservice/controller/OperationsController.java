@@ -4,16 +4,16 @@ import com.humga.moneytransferservice.exceptions.NotFoundException;
 import com.humga.moneytransferservice.exceptions.UnauthorizedException;
 import com.humga.moneytransferservice.model.*;
 
-import com.humga.moneytransferservice.service.AcquiringService;
+import com.humga.moneytransferservice.service.OperationsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin //CORS on: фронт, загруженный из одного источника сможет обращаться к приложению, запущенному на другом
 public class OperationsController {
-    AcquiringService service;
+    OperationsService service;
 
-    public OperationsController(AcquiringService service) {
+    public OperationsController(OperationsService service) {
         this.service = service;
     }
 
