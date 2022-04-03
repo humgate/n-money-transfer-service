@@ -17,10 +17,10 @@ public class Transaction {
     private LocalDateTime timeStamp;
 
     //карта - источник
-    private Card from;
+    private long from;
 
     //карта - получатель
-    private Card to;
+    private long to;
 
     //сумма перевода
     private int value;
@@ -28,12 +28,18 @@ public class Transaction {
     //Валюта перевода
     private String currency;
 
-    public Transaction(long id, LocalDateTime timeStamp, Card from, Card to, int value, String currency) {
-        this.id = id;
-        this.timeStamp = timeStamp;
+    //Статус
+    boolean success;
+
+    public Transaction(long from, long to, int value, String currency) {
         this.from = from;
         this.to = to;
         this.value = value;
         this.currency = currency;
+    }
+
+    public void markDone() {
+        timeStamp = LocalDateTime.now();
+        setSuccess(true);
     }
 }

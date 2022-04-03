@@ -11,14 +11,13 @@ public class Card {
     //номер карты в открытом виде
     private long number;
 
-    //дата действия - хэш
+    //дата действия
     private String validThrough;
 
-    //Владелец - хэш
-    @EqualsAndHashCode.Exclude
+    //Владелец
     private String owner;
 
-    // CVV код - хэш
+    // CVV
     private String cvv;
 
     //пустой конструктор для Jackon десериализации

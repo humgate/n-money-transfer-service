@@ -8,7 +8,7 @@ Content-Type: application/json
   "cardFromValidTill": "01/23",
   "amount": {
     "currency": "RUR",
-    "value": 10000
+    "value": 4000
   }
 }
 
