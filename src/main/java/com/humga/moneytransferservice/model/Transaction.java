@@ -4,17 +4,20 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+
 import java.time.LocalDateTime;
+
+import static com.humga.moneytransferservice.utils.Utils.formatCardNumber;
 
 @Getter
 @NonNull
 public class Transaction {
     //id операции
     @Setter
-    private long id;
+    private long operationId;
 
     //таймстэмп операции
-    private LocalDateTime timeStamp;
+    private final LocalDateTime timeStamp;
 
     //карта - источник
     private final long from;
@@ -29,25 +32,35 @@ public class Transaction {
     private final String currency;
 
     //Статус
-    @Setter
     boolean success;
 
-    public Transaction(long from, long to, int value, String currency) {
+    public Transaction(long from, long to, int value, String currency, boolean success) {
+        this.timeStamp = LocalDateTime.now();
         this.from = from;
         this.to = to;
         this.value = value;
         this.currency = currency;
+        this.success = success;
     }
 
     public Transaction setSuccess() {
-        timeStamp = LocalDateTime.now();
-        setSuccess(true);
+        success=true;
         return this;
     }
 
     public Transaction setFail() {
-        timeStamp = LocalDateTime.now();
-        setSuccess(false);
+        success=false;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return timeStamp +
+                "," + formatCardNumber(from) +
+                "," + formatCardNumber(to) +
+                "," + value + ".00" +
+                "," + currency +
+                "," + (success? "success":"fail") +
+                "\n";
     }
 }

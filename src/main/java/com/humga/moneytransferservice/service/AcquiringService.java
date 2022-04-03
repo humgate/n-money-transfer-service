@@ -26,7 +26,7 @@ public class AcquiringService {
             return AuthorizationStatus.UNAUTHORIZED;
         }
 
-        if (req.getCardFromNumber() == 999) return AuthorizationStatus.UNAUTHORIZED;
+        if (req.getCardFromCVV().equals("999")) return AuthorizationStatus.UNAUTHORIZED;
 
         if (req.getAmount().longValue() > 999999) return AuthorizationStatus.INSUFFICIENT;
 
