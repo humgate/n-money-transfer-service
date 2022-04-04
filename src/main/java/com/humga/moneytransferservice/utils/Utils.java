@@ -2,6 +2,10 @@ package com.humga.moneytransferservice.utils;
 
 import java.util.Arrays;
 
+/**
+ * Утилиты
+ *
+ */
 public class Utils {
     /**
      * Форматирует целочисленное значение номера карты в строку формата 0000-0000-0000-0000
