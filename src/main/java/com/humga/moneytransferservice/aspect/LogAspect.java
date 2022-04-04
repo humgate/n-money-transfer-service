@@ -4,16 +4,19 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 /**
  * Aspect определяет правила генерации и формирования содержания сообщений в лог консоли, в дополнении к
- * стандартному логу консоли Spring
+ * стандартному логу консоли Spring. Расширенное логирования выполняется если в настройках приложения указано
+ * application.profile.dev=false
  *
  */
 @Aspect
 @Component
+@ConditionalOnProperty(name = "application.profile.dev", havingValue = "true")
 public class LogAspect {
     //логер
     private static final Logger LOG = LoggerFactory.getLogger(LogAspect.class);

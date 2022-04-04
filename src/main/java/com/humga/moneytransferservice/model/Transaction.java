@@ -55,7 +55,8 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return timeStamp +
+        return operationId +
+                "," + timeStamp +
                 "," + formatCardNumber(from) +
                 "," + formatCardNumber(to) +
                 "," + value + ".00" +

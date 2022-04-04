@@ -1,8 +1,9 @@
 {
   "properties": [
     {
-      "name": "application.profile.cardsfile",
+      "name": "application.profile.dev",
       "type": "java.lang.String",
-      "description": "Description for application.profile.cardsfile."
-  }
-] }
+      "description": "Application profile dev(true)/prod(false)."
+    }
+  ]
+}
