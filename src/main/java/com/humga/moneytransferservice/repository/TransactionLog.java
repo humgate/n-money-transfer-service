@@ -35,8 +35,8 @@ public class TransactionLog {
      /**
      * Записывает транзакцию в лог транзакций
      *
-     * @param transaction - транзакция
-     */
+      * @param transaction - транзакция
+      */
     public void put(Transaction transaction) {
         long currentId = id.incrementAndGet();
         transaction.setOperationId(currentId);
