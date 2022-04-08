@@ -1,0 +1,12 @@
+# use node.js 14 on alpine3.15
+FROM node:14-alpine3.15
+# expose port 3000 internally for other container apps
+EXPOSE 3000
+# set working dir in the container 
+WORKDIR /home/node/app
+# copy app files excluding compiled on host os - see .dockerignore
+ADD . /home/node/app
+# build app dependencies inside container OS
+RUN npm install
+# run the applicaiton
+ENTRYPOINT ["npm","run","start"]

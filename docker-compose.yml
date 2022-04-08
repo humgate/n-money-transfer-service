@@ -1,0 +1,12 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  restservice:
+    image: "rest-service-app"
+    ports:
+      - "5500:5500"
+  webclient:
+    image: "card-transfer-app"
+    ports:
+      - "3000:3000"
+
+
