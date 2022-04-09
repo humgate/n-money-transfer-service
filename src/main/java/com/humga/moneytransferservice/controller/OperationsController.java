@@ -1,6 +1,5 @@
 package com.humga.moneytransferservice.controller;
 
-import com.humga.moneytransferservice.exceptions.NotFoundException;
 import com.humga.moneytransferservice.exceptions.UnauthorizedException;
 import com.humga.moneytransferservice.model.*;
 
@@ -33,15 +32,9 @@ public class OperationsController {
         return new ResponseErrDTO(e.getMessage(), 1);
     }
 
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NotFoundException.class)
-    ResponseErrDTO handleNotFound(NotFoundException e) {
-        return new ResponseErrDTO(e.getMessage(), 2);
-    }
-
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
     ResponseErrDTO handleInternalServerError(RuntimeException e) {
-        return new ResponseErrDTO("Внутренняя ошибка сервера", 3);
+        return new ResponseErrDTO("Внутренняя ошибка сервера", 2);
     }
 }

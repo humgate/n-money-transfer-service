@@ -30,9 +30,7 @@ public class AcquiringService {
 
         if (req.getAmount().longValue() > 999999) return AuthorizationStatus.INSUFFICIENT;
 
-        if (req.getCardToNumber() == 9999_9999_9999_8888L) {
-            return AuthorizationStatus.ERROR;
-        }
+        if (req.getCardToNumber() == 9999_9999_9999_8888L) return AuthorizationStatus.ERROR;
 
         return AuthorizationStatus.AUTHORIZED;
     }
@@ -41,7 +39,7 @@ public class AcquiringService {
      * Имитирует верификацию сервисом IPSP проверочного кода.
      * Предоставленный в условии задания FRONT не запрашивает у пользователя проверочный код и всегда
      * присылает значение кода = "0000". Поэтому для возможности проверки возврата ошибки с неверным
-     * проверочным кодом, генерируем ошибку неверного проверочного кода для каждого нечетного operationId
+     * проверочным кодом, генерируем ошибку неверного проверочного кода для каждого четного operationId
      *
      * @param operationId id операции,
      * @param code code операци

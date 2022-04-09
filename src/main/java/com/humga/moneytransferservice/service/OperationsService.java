@@ -66,7 +66,7 @@ public class OperationsService {
                     throw new UnauthorizedException("Отказ. Недостаточно средств.");
                 }
                 case ERROR: {
-                    throw new RuntimeException("Ошибка банковского сервиса.");
+                    throw new UnauthorizedException("Ошибка банковского сервиса.");
                 }
                 //не AUTHORIZED и неизвестный нам ответ IPSP
                 default: throw new RuntimeException("Неизвестная ошибка сервиса.");
