@@ -1,8 +1,13 @@
 package com.humga.moneytransferservice.repository;
 
+import com.humga.moneytransferservice.config.ApplicationConfig;
 import com.humga.moneytransferservice.model.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,12 +23,32 @@ import static java.nio.file.StandardOpenOption.*;
  *
  */
 @Repository
+@PropertySource("classpath:application.properties")
 public class TransactionLog {
+    //map для хранения лога транзакций в памяти
     private final Map<Long, Transaction> log = new ConcurrentHashMap<>();
+
+    //генератор id для генерации идентификатора транзакции в мапе
     private final AtomicLong id = new AtomicLong();
-    private final Path logFilePath = Paths.get("transactionlog.log");
 
+    //файл для записи лога транзакций на диск читаем из свойств приложения
+    @Value("${application.transaction-logfile.name}")
+    private String transactionLogFile;
 
+    //path для использования в writer
+    private Path logFilePath;
+
+    //инициализируем path после того как конструктор отработал
+    @PostConstruct
+    void init() {
+        logFilePath = Paths.get(transactionLogFile);
+    }
+
+    /**
+     * Записывает транзакцию в файл лога транзакций на диске в режиме добавления
+     *
+     * @param transaction - транзакция
+     */
     public void writeToLogFile(Transaction transaction) {
         try {
             Files.write(logFilePath, transaction.toString().getBytes(), WRITE, CREATE, APPEND);
@@ -33,9 +58,9 @@ public class TransactionLog {
     }
 
      /**
-     * Записывает транзакцию в лог транзакций
+     * Записывает транзакцию в лог транзакций в памяти, при этом генерируется id транзакции
      *
-      * @param transaction - транзакция
+     * @param transaction - транзакция
       */
     public void put(Transaction transaction) {
         long currentId = id.incrementAndGet();
@@ -43,10 +68,22 @@ public class TransactionLog {
         log.put(currentId,transaction);
     }
 
+    /**
+     * Получает транзакцию по id
+     *
+     * @param operationId - id транзакции
+     * @return транзакция
+     */
     public Transaction get(long operationId) {
         return log.get(operationId);
     }
 
+    /**
+     * Обновляет данные транзакции в логе транзакций в памяти
+     *
+     * @param operationId - id транзакции
+     * @param transaction - транзакция
+     */
     public void update(long operationId, Transaction transaction) {
         log.put(operationId, transaction);
     }
