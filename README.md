@@ -72,7 +72,7 @@ Node.js и "собрать" приложение. В случае же с OS Win
 `docker run -it --rm -p 3000:3000 --name card-transfer card-transfer-app`<br>
 ### Сборка и запуск RESTful сервиса, разработанного в рамках данного проекта
 - Установить значение `application.profile.dev=true` в файле `application.properties`
-- Собрать приложение выполнив `mvn clean package`
+- Собрать приложение, выполнив `mvn clean package`
 - Перейти корневую папку проекта и собрать docker образ выполнив команду в корневой папке проекта<br>
 `docker build -f DockerfileRESTAPP -t rest-service-app .`<br>
 Полученный образ можно запустить без docker-compose командой<br>
@@ -82,6 +82,12 @@ Node.js и "собрать" приложение. В случае же с OS Win
 `docker-compose up`<br>
 (Файл с описанием docker-compose находится в корневой папке проекта `docker-compose.yml`)
 ## Описание тестов
+Для тестирования приложения разработаны unit тесты, проверяющие работу методов с использованием mock, 
+а так же интеграционные тесты с использованием testcontainers. Интеграционные тесты используют docker образ 
+приложения.<br>
+Интеграционные тесты находятся в классе `MoneyTransferServiceApplicationTests.java`. Примеры
+запросов в формате вcтроеного в Intellij IDEA инструмента выполнения запросов собраны в файле `test-requests.http`
+в папке test.
 
 
 
