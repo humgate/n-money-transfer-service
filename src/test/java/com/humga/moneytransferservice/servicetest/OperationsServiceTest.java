@@ -8,6 +8,7 @@ import com.humga.moneytransferservice.service.OperationsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -16,13 +17,14 @@ import static org.mockito.Mockito.*;
 
 public class OperationsServiceTest {
     static TransferRequestDTO reqDTO;
-    //класс простейший, поэтому в тесте будет работать его реальный экземпляр, не мок
     static TransactionLog transactionLog;
 
     @BeforeAll
     public static void initSuite() {
         reqDTO = new TransferRequestDTO();
-        transactionLog = new TransactionLog();
+        //для теста не важна работа метода transactionLog.writeToLogFile, поэтому его заглушим
+        transactionLog = Mockito.spy(TransactionLog.class);
+        doNothing().when(transactionLog).writeToLogFile(isA(Transaction.class));
 
         //входной параметр для тестируемого метода
         reqDTO.setCardFromNumber(1111_1111_1111_1111L);
