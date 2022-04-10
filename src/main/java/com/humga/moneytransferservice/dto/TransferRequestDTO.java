@@ -1,16 +1,10 @@
-package com.humga.moneytransferservice.model;
+package com.humga.moneytransferservice.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class TransferRequestDTO {
-     @Getter
-     @Setter
-     @ToString
+     @Data
      public static class AmountDto {
           String currency;
           int value;

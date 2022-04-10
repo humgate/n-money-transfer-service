@@ -1,12 +1,10 @@
-package com.humga.moneytransferservice.model;
+package com.humga.moneytransferservice.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
+@Data
 @AllArgsConstructor
-@ToString
 public class ResponseErrDTO {
     String message;
     int id;

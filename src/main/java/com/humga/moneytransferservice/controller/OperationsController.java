@@ -1,7 +1,10 @@
 package com.humga.moneytransferservice.controller;
 
+import com.humga.moneytransferservice.dto.ConfirmOperationRequestDTO;
+import com.humga.moneytransferservice.dto.Response200DTO;
+import com.humga.moneytransferservice.dto.ResponseErrDTO;
+import com.humga.moneytransferservice.dto.TransferRequestDTO;
 import com.humga.moneytransferservice.exceptions.UnauthorizedException;
-import com.humga.moneytransferservice.model.*;
 
 import com.humga.moneytransferservice.service.OperationsService;
 import org.springframework.http.HttpStatus;
@@ -10,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin //CORS on: фронт, загруженный из одного источника сможет обращаться к приложению, запущенному на другом
 public class OperationsController {
-    OperationsService service;
+    private final OperationsService service;
 
     public OperationsController(OperationsService service) {
         this.service = service;

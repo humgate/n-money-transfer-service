@@ -1,13 +1,11 @@
-package com.humga.moneytransferservice.model;
+package com.humga.moneytransferservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
+import lombok.Data;
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 
-@Getter
+@Data
 @AllArgsConstructor
-@ToString
 public class Response200DTO {
     String operationId;
     @JsonInclude(JsonInclude.Include.NON_NULL) //если поле null, то оно не будет сериализовыватcя в Json

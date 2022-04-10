@@ -1,5 +1,7 @@
 package com.humga.moneytransferservice.servicetest;
 
+import com.humga.moneytransferservice.dto.Response200DTO;
+import com.humga.moneytransferservice.dto.TransferRequestDTO;
 import com.humga.moneytransferservice.exceptions.UnauthorizedException;
 import com.humga.moneytransferservice.model.*;
 import com.humga.moneytransferservice.repository.TransactionLog;

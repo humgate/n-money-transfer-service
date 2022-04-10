@@ -1,5 +1,8 @@
 package com.humga.moneytransferservice.service;
 
+import com.humga.moneytransferservice.dto.ConfirmOperationRequestDTO;
+import com.humga.moneytransferservice.dto.Response200DTO;
+import com.humga.moneytransferservice.dto.TransferRequestDTO;
 import com.humga.moneytransferservice.exceptions.*;
 import com.humga.moneytransferservice.model.*;
 import com.humga.moneytransferservice.repository.*;
@@ -20,8 +23,8 @@ import static com.humga.moneytransferservice.model.AuthorizationStatus.AUTHORIZE
 @Service
 public class OperationsService {
 
-    TransactionLog transactionLog;
-    AcquiringService acquiringService;
+    private final TransactionLog transactionLog;
+    private final AcquiringService acquiringService;
     private Transaction transaction;
 
     public OperationsService(TransactionLog transactionLog, AcquiringService acquiringService) {
